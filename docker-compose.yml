@@ -1,0 +1,16 @@
+version: '3.1'
+
+
+services:
+  db:
+    image: postgres:16
+    container_name: devtraining-db
+    restart: always
+    ports:
+      - '5435:5435'
+    volumes:
+      - .docker/dbdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: cacoal123
+      POSTGRES_DB: devtraining
