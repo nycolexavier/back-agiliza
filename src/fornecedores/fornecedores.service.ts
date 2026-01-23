@@ -1,26 +1,50 @@
-import { Injectable } from '@nestjs/common';
-import { CreateFornecedoreDto } from './dto/create-fornecedore.dto';
-import { UpdateFornecedoreDto } from './dto/update-fornecedore.dto';
+/* eslint-disable */
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateFornecedoresDto } from './dto/create-fornecedores.dto';
+import { UpdateFornecedoreDto } from './dto/update-fornecedores.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Fornecedor } from './entities/fornecedor.entity';
+import { Repository } from 'typeorm'
 
 @Injectable()
 export class FornecedoresService {
-  create(createFornecedoreDto: CreateFornecedoreDto) {
-    return 'This action adds a new fornecedore';
+
+  constructor(@InjectRepository(Fornecedor) private readonly fornecedorRepository: Repository<Fornecedor> ){}
+
+async create(createFornecedoresDto: CreateFornecedoresDto) {
+  const fornecedor = this.fornecedorRepository.create(createFornecedoresDto)  
+  
+  return this.fornecedorRepository.save(fornecedor)
   }
 
-  findAll() {
-    return `This action returns all fornecedores`;
+ async findAll() {
+  return this.fornecedorRepository.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} fornecedore`;
+async  findOne(id: string) {
+   const fornecedor = await this.fornecedorRepository.findOne({
+    where: {id}
+   })
+  
+   if(!fornecedor){
+    throw new NotFoundException("Fornecedor não encontrado")
+   }
+
+   return fornecedor
+
   }
 
-  update(id: number, updateFornecedoreDto: UpdateFornecedoreDto) {
-    return `This action updates a #${id} fornecedore`;
+ async update(id: string, updateFornecedoresDto: UpdateFornecedoreDto) {
+    const fornecedor = await this.findOne(id)
+
+    Object.assign(fornecedor, updateFornecedoresDto)
+
+    return this.fornecedorRepository.save(fornecedor)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} fornecedore`;
+ async remove(id: string) {
+    const fornecedor = await this.findOne(id)
+
+    await this.fornecedorRepository.remove(fornecedor)
   }
 }
