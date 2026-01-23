@@ -3,9 +3,8 @@
 import {BeforeInsert, Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn} from 'typeorm'
 import { Tag } from './tags.entity';
 import { randomUUID } from 'node:crypto';
-import { createDateRange } from 'vuetify/lib/composables/date/date.mjs';
 
-@Entity('courses')
+@Entity('users')
 export class Users {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -13,9 +12,8 @@ export class Users {
   @Column()
   name: string;
 
-
   @Column()
-  description: string;
+  email: string;
 
   @JoinTable()
   @ManyToMany(() => Tag, tag => tag.users, {
