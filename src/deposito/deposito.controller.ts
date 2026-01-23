@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { DepositoService } from './deposito.service';
 import { CreateDepositoDto } from './dto/create-deposito.dto';
@@ -19,16 +20,16 @@ export class DepositoController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.depositoService.findOne(+id);
+    return this.depositoService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateDepositoDto: UpdateDepositoDto) {
-    return this.depositoService.update(+id, updateDepositoDto);
+    return this.depositoService.update(id, updateDepositoDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.depositoService.remove(+id);
+    return this.depositoService.remove(id);
   }
 }

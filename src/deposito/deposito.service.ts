@@ -1,26 +1,52 @@
-import { Injectable } from '@nestjs/common';
+/* eslint-disable */
+
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateDepositoDto } from './dto/create-deposito.dto';
 import { UpdateDepositoDto } from './dto/update-deposito.dto';
+import { Deposito } from './entities/deposito.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm'
 
 @Injectable()
 export class DepositoService {
-  create(createDepositoDto: CreateDepositoDto) {
-    return 'This action adds a new deposito';
+
+    constructor(@InjectRepository(Deposito)
+    private readonly depositoRepository: Repository<Deposito>
+  ){}
+
+ async create(createDepositoDto: CreateDepositoDto) {
+   const deposito = this.depositoRepository.create(createDepositoDto)
+   
+      return this.depositoRepository.save(deposito);
   }
 
-  findAll() {
-    return `This action returns all deposito`;
+ async findAll() {
+   return this.depositoRepository.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} deposito`;
+ async findOne(id: string) {
+       const deposito = await this.depositoRepository.findOne({
+        where: {id:id}
+       })
+    
+       if(!deposito){
+        throw new NotFoundException("Deposito não encontrado")
+       }
+    
+       return deposito;
   }
 
-  update(id: number, updateDepositoDto: UpdateDepositoDto) {
-    return `This action updates a #${id} deposito`;
+ async update(id: string, updateDepositoDto: UpdateDepositoDto) {
+        const deposito = await this.findOne(id)
+
+    Object.assign(deposito, updateDepositoDto)
+
+    return this.depositoRepository.save(deposito)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} deposito`;
+ async remove(id: string) {
+       const deposito = await this.findOne(id)
+   
+       await this.depositoRepository.remove(deposito)
   }
 }
