@@ -1,6 +1,7 @@
 /* eslint-disable */
 
-import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm'
+import { Marca } from '../../marcas/entities/marca.entity';
+import {Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm'
 
 @Entity('Lotes')
 export class Lote {
@@ -22,8 +23,12 @@ export class Lote {
     @Column({length: 13, unique: true})
     codigoBarra: string
 
-    @Column({type: 'varchar', length: 50})
-    codigoLote: string
+    @Column({ unique: true, type: 'varchar', length: 50})
+    codigoLote: string;
+
+    @ManyToOne(() => Marca, (marca) => marca.lotes, {nullable: true})
+  @JoinColumn({ name: 'marca_id' })
+  marca: Marca;
 
     @CreateDateColumn({type: 'timestamp'})
     criadoEm:Date

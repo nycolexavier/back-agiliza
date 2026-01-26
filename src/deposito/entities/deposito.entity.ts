@@ -22,7 +22,7 @@ export class Deposito {
   sessao: string;
 
   @Column()
-  quantMax: string;
+  quantidadeMaxima: string;
 
   @CreateDateColumn({
     type: 'timestamptz',

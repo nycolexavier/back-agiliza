@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateLoteDto } from './dto/create-lote.dto';
 import { UpdateLoteDto } from './dto/update-lote.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -12,9 +12,30 @@ export class LotesService {
   constructor(@InjectRepository(Lote) private readonly loterepository: Repository<Lote>){}  
 
  async create(createLoteDto: CreateLoteDto) {
-    const lote = this.loterepository.create(createLoteDto)
+  
+  const existeCodigoLote = await this.loterepository.findOne({
+    where: {
+      codigoLote: createLoteDto.codigoLote
+    }
+  })
 
-    return this.loterepository.save(lote)
+   if(existeCodigoLote){
+    throw new BadRequestException("Código de lote já existe")
+  }
+
+    const existeCodigoBarra = await this.loterepository.findOne({
+    where: {
+      codigoBarra: createLoteDto.codigoBarra
+    }
+  })
+
+   if(existeCodigoBarra){
+    throw new BadRequestException("Código de barra já existe")
+  }
+
+  
+    const lote = this.loterepository.create(createLoteDto)
+      return this.loterepository.save(lote)
   }
 
  async findAll() {

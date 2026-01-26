@@ -15,7 +15,29 @@ export class ProductsService {
   ){}
 
   async create(createProductDto: CreateProductDto) {
-    const produto = this.productRepository.create(createProductDto)
+    const nomeNormalizado = createProductDto.nome.trim().toLocaleLowerCase();
+    
+    const existeNome = await this.productRepository.findOne({
+      where: {
+        nome: nomeNormalizado
+      }
+    })
+
+    if(existeNome){
+      throw new NotFoundException("Nome de produto já existe")
+    }
+
+    const existeSku = await this.productRepository.findOne({
+      where: {
+        sku: createProductDto.sku
+      }
+    })
+
+    if(existeSku){
+      throw new NotFoundException("SKU já existe")
+    }
+
+    const produto = this.productRepository.create({...createProductDto, nome: nomeNormalizado})
 
     return this.productRepository.save(produto)
   }
