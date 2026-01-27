@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { MovimentacoesService } from './movimentacoes.service';
-import { CreateMovimentacoesDto } from './dto/create-movimentacoe.dto';
+import { CreateMovimentacaoDto } from './dto/create-movimentacoe.dto';
 import { UpdateMovimentacoeDto } from './dto/update-movimentacoe.dto';
 
 @Controller('movimentacoes')
@@ -9,7 +9,7 @@ export class MovimentacoesController {
   constructor(private readonly movimentacoesService: MovimentacoesService) {}
 
   @Post()
-  create(@Body() createMovimentacoesDto: CreateMovimentacoesDto) {
+  create(@Body() createMovimentacoesDto: CreateMovimentacaoDto) {
     return this.movimentacoesService.create(createMovimentacoesDto);
   }
 

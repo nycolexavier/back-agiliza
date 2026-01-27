@@ -1,16 +1,24 @@
 /* eslint-disable */
-import { IsDateString, IsEnum, IsNumber } from "class-validator";
+import { IsNotEmpty, IsDateString, IsEnum, IsUUID, IsNumber, Min } from 'class-validator';
 
-export class CreateMovimentacoesDto {
+export class CreateMovimentacaoDto {
+  @IsEnum(['entrada', 'saida'])
+  @IsNotEmpty()
+  tipo: 'entrada' | 'saida';
 
+  @IsUUID()
+  @IsNotEmpty()
+  loteId: string; 
 
-    @IsNumber()
-    quantidade: number;
+  @IsNumber()
+  @Min(1)
+  @IsNotEmpty()
+  quantidade: number; 
 
-    @IsDateString()
-    dataMovimentacao: Date;
+  @IsDateString()
+  @IsNotEmpty()
+  dataMovimentacao: string; 
 
-    @IsEnum(['entrada', 'saida'])
-    tipo: 'entrada' | 'saida'
-
+  @IsUUID()
+  criadoPorId?: string;
 }
