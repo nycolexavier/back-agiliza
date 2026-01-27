@@ -11,11 +11,12 @@ import { MovimentacoesModule } from './movimentacoes/movimentacoes.module';
 import { DepositoModule } from './deposito/deposito.module';
 import { LotesModule } from './lotes/lotes.module';
 import { MarcasModule } from './marcas/marcas.module';
+import { RelatoriosModule } from './relatorios/relatorios.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
     isGlobal: true
-  }), UsersModule, DatabaseModule, ProductsModule, FornecedoresModule, MovimentacoesModule, DepositoModule, LotesModule, MarcasModule],
+  }), UsersModule, DatabaseModule, ProductsModule, FornecedoresModule, MovimentacoesModule, DepositoModule, LotesModule, MarcasModule, RelatoriosModule],
   controllers: [AppController],
   providers: [AppService],
 })
