@@ -1,14 +1,14 @@
 /* eslint-disable */
 
 import { Lote } from '../../lotes/entities/lote.entity';
-import {BeforeInsert, Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm'
+import {Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm'
 
 @Entity('marcas')
 export class Marca {
     @PrimaryGeneratedColumn('uuid')
     id: string;
     
-    @Column()
+    @Column({unique: true})
     nome: string;
 
 @Column({ nullable: true })

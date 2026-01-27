@@ -1,7 +1,10 @@
 /* eslint-disable */
 
+import { Product } from '../../products/entities/product.entity';
 import { Marca } from '../../marcas/entities/marca.entity';
 import {Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm'
+import { Deposito } from '../../deposito/entities/deposito.entity';
+import { Fornecedor } from '../../fornecedores/entities/fornecedor.entity';
 
 @Entity('Lotes')
 export class Lote {
@@ -16,6 +19,18 @@ export class Lote {
 
     @Column()
     quantidade: string
+
+      @ManyToOne(() => Product)
+  @JoinColumn({ name: 'produto_id' })
+  produto: Product;
+
+  @ManyToOne(() => Deposito)
+  @JoinColumn({ name: 'deposito_id' })
+  deposito: Deposito;
+
+  @ManyToOne(() => Fornecedor)
+  @JoinColumn({ name: 'fornecedor_id' })
+  fornecedor: Fornecedor;
 
     @Column()
     dataValidade: Date

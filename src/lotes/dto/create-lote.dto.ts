@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { IsNumber, IsNotEmpty, IsDateString, IsString, Length } from "class-validator";
+import { IsNumber, IsNotEmpty, IsDateString, IsString, Length, IsUUID } from "class-validator";
 
 export class CreateLoteDto {
       @IsNumber()
@@ -14,6 +14,17 @@ export class CreateLoteDto {
   @IsNotEmpty()
   quantidade: string;
 
+   @IsUUID()
+  produtoId: string;
+
+   @IsUUID()
+  marcaId: string;
+
+   @IsUUID()
+  depositoId: string;
+
+  @IsUUID()
+  fornecedorId: string;
   
   @IsDateString()
   @IsNotEmpty()
@@ -27,4 +38,7 @@ export class CreateLoteDto {
   @IsString()
   @IsNotEmpty()
   codigoLote: string;
+
+   @IsString()
+  status: string
 }

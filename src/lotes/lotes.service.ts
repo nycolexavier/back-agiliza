@@ -5,13 +5,54 @@ import { UpdateLoteDto } from './dto/update-lote.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Lote } from './entities/lote.entity';
 import { Repository } from 'typeorm'
+import { Product } from 'src/products/entities/product.entity';
+import { Deposito } from 'src/deposito/entities/deposito.entity';
+import { Fornecedor } from 'src/fornecedores/entities/fornecedor.entity';
+import { Marca } from 'src/marcas/entities/marca.entity';
 
 @Injectable()
 export class LotesService {
 
-  constructor(@InjectRepository(Lote) private readonly loterepository: Repository<Lote>){}  
+  constructor(
+    @InjectRepository(Lote) 
+    private readonly loterepository: Repository<Lote>,
+  
+      @InjectRepository(Product)
+  private readonly productRepository: Repository<Product>,
+
+  @InjectRepository(Deposito)
+  private readonly depositoRepository: Repository<Deposito>,
+
+  @InjectRepository(Fornecedor)
+  private readonly fornecedorRepository: Repository<Fornecedor>,
+
+  ){}  
 
  async create(createLoteDto: CreateLoteDto) {
+
+    const produto = await this.productRepository.findOne({
+    where: { id: createLoteDto.produtoId }
+  });
+
+  if (!produto) {
+    throw new BadRequestException('Produto não encontrado');
+  }
+
+   const deposito = await this.depositoRepository.findOne({
+    where: { id: createLoteDto.depositoId }
+  });
+
+  if (!deposito) {
+    throw new BadRequestException('Depósito não encontrado');
+  }
+
+    const fornecedor = await this.fornecedorRepository.findOne({
+    where: { id: createLoteDto.fornecedorId }
+  });
+
+  if (!fornecedor) {
+    throw new BadRequestException('Fornecedor não encontrado');
+  }
   
   const existeCodigoLote = await this.loterepository.findOne({
     where: {
@@ -34,7 +75,19 @@ export class LotesService {
   }
 
   
-    const lote = this.loterepository.create(createLoteDto)
+    const lote = this.loterepository.create({
+  precoCusto: createLoteDto.precoCusto,
+  precoVenda: createLoteDto.precoVenda,
+  quantidade: createLoteDto.quantidade,
+  dataValidade: createLoteDto.dataValidade,
+  codigoBarra: createLoteDto.codigoBarra,
+  codigoLote: createLoteDto.codigoLote,
+
+  produto: { id: createLoteDto.produtoId },
+  deposito: { id: createLoteDto.depositoId },
+  fornecedor: { id: createLoteDto.fornecedorId },
+  marca: { id: createLoteDto.marcaId }
+});
       return this.loterepository.save(lote)
   }
 
