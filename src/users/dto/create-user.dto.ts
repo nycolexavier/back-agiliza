@@ -1,6 +1,7 @@
 /* eslint-disable */
 
-import { IsString } from "class-validator"
+import { IsEnum, IsString } from "class-validator"
+import { CargoUsuario } from "../enums/cargoUsuario"
 
 
 export class CreateUserDTO{
@@ -10,9 +11,9 @@ export class CreateUserDTO{
       @IsString()
    readonly email: string
 
-    @IsString()
-   readonly description: string
+   @IsEnum(CargoUsuario)
+   cargo: CargoUsuario
 
-    @IsString({each: true}) // verifica se cada item do array é string
-   readonly tags: string[]
+   @IsString()
+   telefone: string
 }
