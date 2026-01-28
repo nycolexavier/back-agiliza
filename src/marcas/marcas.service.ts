@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMarcaDto } from './dto/create-marca.dto';
 import { UpdateMarcaDto } from './dto/update-marca.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -14,6 +14,14 @@ export class MarcasService {
 ){}
 
  async create(createMarcaDto: CreateMarcaDto) {
+     const existeMarca = await this.marcaRepository.findOne({
+    where: {nome: createMarcaDto.nome}
+   })
+
+   if(existeMarca){
+     throw new BadRequestException("Marca já existe")
+   }
+
    const marca = this.marcaRepository.create({...createMarcaDto} as Marca)
 
    return this.marcaRepository.save(marca);
