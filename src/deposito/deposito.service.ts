@@ -15,15 +15,19 @@ export class DepositoService {
   ){}
 
  async create(createDepositoDto: CreateDepositoDto) {
+
+  const corredorNormalizado = createDepositoDto.corredor.trim().toLocaleLowerCase();
+
   const existeCorredor = await this.depositoRepository.findOne({
-    where: {corredor: createDepositoDto.corredor}
+    where: {corredor: corredorNormalizado}
   })
+  
   if(existeCorredor){
      throw new NotFoundException("Corredor já foi cadastrado!")
   }
    const deposito = this.depositoRepository.create(createDepositoDto)
    
-      return this.depositoRepository.save(deposito);
+    return this.depositoRepository.save(deposito);
   }
 
  async findAll() {
