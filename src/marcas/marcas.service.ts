@@ -22,7 +22,7 @@ export class MarcasService {
      throw new BadRequestException("Marca já existe")
    }
 
-   const marca = this.marcaRepository.create({...createMarcaDto} as Marca)
+    const marca = this.marcaRepository.create({...createMarcaDto} as Marca)
 
    return this.marcaRepository.save(marca);
   }

@@ -1,8 +1,15 @@
 /* eslint-disable */
-import { IsString, IsNotEmpty } from "class-validator";
+import { IsString, IsNotEmpty, IsEnum } from "class-validator";
 
 export class CreateFornecedoresDto {
-      @IsString()
+  @IsString()
   @IsNotEmpty()
   nome: string;
+
+  @IsString()
+  @IsNotEmpty()
+     email: string
+  
+   @IsString()
+   telefone: string
 }

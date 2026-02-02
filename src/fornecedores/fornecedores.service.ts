@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateFornecedoresDto } from './dto/create-fornecedores.dto';
 import { UpdateFornecedoreDto } from './dto/update-fornecedores.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -12,6 +12,15 @@ export class FornecedoresService {
   constructor(@InjectRepository(Fornecedor) private readonly fornecedorRepository: Repository<Fornecedor> ){}
 
 async create(createFornecedoresDto: CreateFornecedoresDto) {
+
+         const existeFornecedor = await this.fornecedorRepository.findOne({
+        where: {nome: createFornecedoresDto.nome}
+       })
+    
+       if(existeFornecedor){
+         throw new BadRequestException("Nome duplicado. Tente outro.")
+       }
+
   const fornecedor = this.fornecedorRepository.create(createFornecedoresDto)  
   
   return this.fornecedorRepository.save(fornecedor)
