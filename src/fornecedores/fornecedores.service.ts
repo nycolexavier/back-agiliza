@@ -44,6 +44,15 @@ async  findOne(id: string) {
   }
 
  async update(id: string, updateFornecedoresDto: UpdateFornecedoreDto) {
+
+           const existeNomeFornecedor = await this.fornecedorRepository.findOne({
+        where: {nome: updateFornecedoresDto.nome}
+       })
+    
+       if(existeNomeFornecedor){
+         throw new BadRequestException("Nome já existe. Tente outro.")
+       }
+
     const fornecedor = await this.findOne(id)
 
     Object.assign(fornecedor, updateFornecedoresDto)

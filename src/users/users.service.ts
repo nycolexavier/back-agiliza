@@ -67,9 +67,9 @@ return this.userRepository.save(user)
       id: id
     }
    })
-   if(!user){
-   throw new NotFoundException(`Usuário ID ${id} não encontrado`)
-}
-return this.userRepository.remove(user)
+    if(!user){
+      throw new NotFoundException(`Usuário ID ${id} não encontrado`)
+  }
+    return this.userRepository.remove(user)
   }
 }

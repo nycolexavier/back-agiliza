@@ -12,17 +12,14 @@ export class Deposito {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ length: 20 })
+  @Column({unique: true, length: 20 })
   corredor: string;
 
-  @Column({ length: 20 })
-  prateleira: string;
-
-  @Column({ length: 20 })
-  sessao: string;
-
-  @Column()
-  quantidadeMaxima: string;
+  @Column({
+    type: 'boolean',
+    default: false,
+  })
+  temProduto: boolean;
 
   @CreateDateColumn({
     type: 'timestamptz',

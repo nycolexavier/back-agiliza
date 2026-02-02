@@ -91,9 +91,39 @@ export class LotesService {
       return this.loterepository.save(lote)
   }
 
- async findAll() {
-    return this.loterepository.find()
-  }
+async findAll() {
+  return this.loterepository
+    .createQueryBuilder('lote')
+    .leftJoinAndSelect('lote.produto', 'produto')
+    .leftJoinAndSelect('lote.marca', 'marca')
+    .leftJoinAndSelect('lote.deposito', 'deposito')
+    .leftJoinAndSelect('lote.fornecedor', 'fornecedor')
+    .select([
+      'lote.id',
+      'lote.precoCusto',
+      'lote.precoVenda',
+      'lote.quantidade',
+      'lote.dataValidade',
+      'lote.codigoBarra',
+      'lote.codigoLote',
+
+      'produto.id',
+      'produto.nome',
+
+      'marca.id',
+      'marca.nome',
+
+      'deposito.id',
+      'deposito.corredor',
+      'deposito.prateleira',
+      'deposito.sessao',
+
+      'fornecedor.id',
+      'fornecedor.nome',
+    ])
+    .getMany();
+}
+
 
  async findOne(id: string) {
    const lote = await this.loterepository.findOne({

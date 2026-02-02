@@ -2,15 +2,18 @@
 
 import { IsEnum, IsString } from "class-validator"
 import { CargoUsuario } from "../enums/cargoUsuario"
-
+import { Status } from "src/enums/status.enum"
 
 export class CreateUserDTO{
-    @IsString()
+   @IsString()
    readonly name: string
 
-      @IsString()
+   @IsString()
    readonly email: string
 
+   @IsString()
+   status: Status;
+   
    @IsEnum(CargoUsuario)
    cargo: CargoUsuario
 
