@@ -115,8 +115,6 @@ async findAll() {
 
       'deposito.id',
       'deposito.corredor',
-      'deposito.prateleira',
-      'deposito.sessao',
 
       'fornecedor.id',
       'fornecedor.nome',
