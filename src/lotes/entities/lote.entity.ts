@@ -1,26 +1,32 @@
-/* eslint-disable */
-
 import { Product } from '../../products/entities/product.entity';
 import { Marca } from '../../marcas/entities/marca.entity';
-import {Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm'
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Deposito } from '../../deposito/entities/deposito.entity';
 import { Fornecedor } from '../../fornecedores/entities/fornecedor.entity';
 
 @Entity('Lotes')
 export class Lote {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column()
-    precoCusto: string
+  @Column()
+  precoCusto: string;
 
-    @Column()
-    precoVenda: string
+  @Column()
+  precoVenda: string;
 
-    @Column()
-    quantidade: string
+  @Column()
+  quantidade: string;
 
-      @ManyToOne(() => Product)
+  @ManyToOne(() => Product)
   @JoinColumn({ name: 'produto_id' })
   produto: Product;
 
@@ -32,22 +38,22 @@ export class Lote {
   @JoinColumn({ name: 'fornecedor_id' })
   fornecedor: Fornecedor;
 
-    @Column()
-    dataValidade: Date
+  @Column({ type: 'date', nullable: true })
+  dataValidade: Date | null;
 
-    @Column({length: 13, unique: true})
-    codigoBarra: string
+  @Column({ length: 13, unique: true })
+  codigoBarra: string;
 
-    @Column({ unique: true, type: 'varchar', length: 50})
-    codigoLote: string;
+  @Column({ unique: true, type: 'varchar', length: 50 })
+  codigoLote: string;
 
-    @ManyToOne(() => Marca, (marca) => marca.lotes, {nullable: true})
+  @ManyToOne(() => Marca, (marca) => marca.lotes, { nullable: true })
   @JoinColumn({ name: 'marca_id' })
   marca: Marca;
 
-    @CreateDateColumn({type: 'timestamp'})
-    criadoEm:Date
-      
-    @UpdateDateColumn({type: 'timestamp'})
-    atualizadoEm: Date
+  @CreateDateColumn({ type: 'timestamp' })
+  criadoEm: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  atualizadoEm: Date;
 }

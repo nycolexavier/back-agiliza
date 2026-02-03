@@ -19,35 +19,35 @@ export class RelatoriosService {
   ){}
 
    async produtosProximosVencimento() {
-    // 📅 hoje
-    const hoje = new Date();
+    // // 📅 hoje
+    // const hoje = new Date();
 
-    // 📅 hoje + 30 dias
-    const limite = new Date();
-    limite.setDate(hoje.getDate() + 30);
+    // // 📅 hoje + 30 dias
+    // const limite = new Date();
+    // limite.setDate(hoje.getDate() + 30);
 
-    const produtos = await this.loteRepository
-      .createQueryBuilder('lote')
-      .where('lote.dataValidade <= :limite', { limite })
-      .getMany();
+    // const produtos = await this.loteRepository
+    //   .createQueryBuilder('lote')
+    //   .where('lote.dataValidade <= :limite', { limite })
+    //   .getMany();
 
-    // 🧮 calcular dias restantes
-    return produtos.map(lote => {
-      const diffTime =
-        new Date(lote.dataValidade).getTime() - hoje.getTime();
+    // // 🧮 calcular dias restantes
+    // return produtos.map(lote => {
+    //   const diffTime =
+    //     new Date(lote.dataValidade).getTime() - hoje.getTime();
 
-      const diasParaVencer = Math.ceil(
-        diffTime / (1000 * 60 * 60 * 24),
-      );
+    //   const diasParaVencer = Math.ceil(
+    //     diffTime / (1000 * 60 * 60 * 24),
+    //   );
 
-      return {
-        id: lote.id,
-        // nome: lote.nome,
-        quantidade: lote.quantidade,
-        dataValidade: lote.dataValidade,
-        diasParaVencer,
-      };
-    });
+    //   return {
+    //     id: lote.id,
+    //     // nome: lote.nome,
+    //     quantidade: lote.quantidade,
+    //     dataValidade: lote.dataValidade,
+    //     diasParaVencer,
+    //   };
+    // });
   }
 
   async rastreamentoPorLote(loteId: string){
