@@ -1,5 +1,12 @@
-/* eslint-disable */
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { DepositoService } from './deposito.service';
 import { CreateDepositoDto } from './dto/create-deposito.dto';
 import { UpdateDepositoDto } from './dto/update-deposito.dto';
@@ -13,6 +20,11 @@ export class DepositoController {
     return this.depositoService.create(createDepositoDto);
   }
 
+  @Get('disponiveis')
+  findDisponiveis() {
+    return this.depositoService.findDisponiveis();
+  }
+
   @Get()
   findAll() {
     return this.depositoService.findAll();
@@ -24,7 +36,10 @@ export class DepositoController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDepositoDto: UpdateDepositoDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateDepositoDto: UpdateDepositoDto,
+  ) {
     return this.depositoService.update(id, updateDepositoDto);
   }
 
