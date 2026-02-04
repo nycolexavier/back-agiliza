@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -13,11 +12,25 @@ import { LotesModule } from './lotes/lotes.module';
 import { MarcasModule } from './marcas/marcas.module';
 import { RelatoriosModule } from './relatorios/relatorios.module';
 import { CategoriasModule } from './categorias/categorias.module';
+import { EnderecosModule } from './enderecos/enderecos.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({
-    isGlobal: true
-  }), UsersModule, DatabaseModule, ProductsModule, FornecedoresModule, MovimentacoesModule, DepositoModule, LotesModule, MarcasModule, RelatoriosModule, CategoriasModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    UsersModule,
+    DatabaseModule,
+    ProductsModule,
+    FornecedoresModule,
+    MovimentacoesModule,
+    DepositoModule,
+    LotesModule,
+    MarcasModule,
+    RelatoriosModule,
+    CategoriasModule,
+    EnderecosModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

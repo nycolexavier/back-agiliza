@@ -1,22 +1,20 @@
-/* eslint-disable */
+import { IsEnum, IsString } from 'class-validator';
+import { CargoUsuario } from '../enums/cargoUsuario';
+import { Status } from '../../enums/status.enum';
 
-import { IsEnum, IsString } from "class-validator"
-import { CargoUsuario } from "../enums/cargoUsuario"
-import { Status } from "src/enums/status.enum"
+export class CreateUserDTO {
+  @IsString()
+  readonly name: string;
 
-export class CreateUserDTO{
-   @IsString()
-   readonly name: string
+  @IsString()
+  readonly email: string;
 
-   @IsString()
-   readonly email: string
+  @IsString()
+  status: Status;
 
-   @IsString()
-   status: Status;
-   
-   @IsEnum(CargoUsuario)
-   cargo: CargoUsuario
+  @IsEnum(CargoUsuario)
+  cargo: CargoUsuario;
 
-   @IsString()
-   telefone: string
+  @IsString()
+  telefone: string;
 }

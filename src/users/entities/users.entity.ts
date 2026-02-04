@@ -1,9 +1,13 @@
-/* eslint-disable */
-
-import {BeforeInsert, Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn} from 'typeorm'
-import { randomUUID } from 'node:crypto';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { CargoUsuario } from '../enums/cargoUsuario';
 import { Status } from '../../enums/status.enum';
+import { Enderecos } from '../../enderecos/entities/endereco.entity';
 
 @Entity('users')
 export class Users {
@@ -13,7 +17,7 @@ export class Users {
   @Column()
   name: string;
 
-    @Column({
+  @Column({
     type: 'enum',
     enum: CargoUsuario,
     default: CargoUsuario.FUNCIONARIO,
@@ -23,9 +27,9 @@ export class Users {
   @Column({
     type: 'enum',
     enum: Status,
-    default: Status.ATIVO
+    default: Status.ATIVO,
   })
-  status:Status;
+  status: Status;
 
   @Column()
   email: string;
@@ -37,14 +41,11 @@ export class Users {
   })
   telefone: string;
 
-  @CreateDateColumn({type: 'timestamp'})
-  created_at: Date
+  @CreateDateColumn({ type: 'timestamp' })
+  created_at: Date;
 
-  @BeforeInsert()
-  generatedId(){
-    if(this.id){
-      return    }
-
-      this.id = randomUUID();
-  }
+  @OneToMany(() => Enderecos, (enderecos) => enderecos.usuario, {
+    cascade: true,
+  })
+  endereco: Enderecos[];
 }
