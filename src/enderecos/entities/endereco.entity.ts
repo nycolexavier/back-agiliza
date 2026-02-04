@@ -27,9 +27,6 @@ export class Enderecos {
   @Column()
   localidade: string;
 
-  @Column({ length: 2 })
-  uf: string;
-
   @Column()
   estado: string;
 

@@ -20,8 +20,5 @@ export class CreateEnderecoDto {
   localidade: string;
 
   @IsString()
-  uf: string;
-
-  @IsString()
   estado: string;
 }
