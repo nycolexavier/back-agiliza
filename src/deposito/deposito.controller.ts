@@ -10,7 +10,10 @@ import {
 import { DepositoService } from './deposito.service';
 import { CreateDepositoDto } from './dto/create-deposito.dto';
 import { UpdateDepositoDto } from './dto/update-deposito.dto';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/strategies/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('deposito')
 export class DepositoController {
   constructor(private readonly depositoService: DepositoService) {}

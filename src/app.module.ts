@@ -13,6 +13,7 @@ import { MarcasModule } from './marcas/marcas.module';
 import { RelatoriosModule } from './relatorios/relatorios.module';
 import { CategoriasModule } from './categorias/categorias.module';
 import { EnderecosModule } from './enderecos/enderecos.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { EnderecosModule } from './enderecos/enderecos.module';
     RelatoriosModule,
     CategoriasModule,
     EnderecosModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

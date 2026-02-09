@@ -1,4 +1,4 @@
-import { IsEnum, IsString } from 'class-validator';
+import { IsEnum, IsString, MinLength } from 'class-validator';
 import { CargoUsuario } from '../enums/cargoUsuario';
 import { Status } from '../../enums/status.enum';
 
@@ -17,4 +17,8 @@ export class CreateUserDTO {
 
   @IsString()
   telefone: string;
+
+  @IsString()
+  @MinLength(6)
+  senha: string;
 }

@@ -34,6 +34,9 @@ export class Users {
   @Column()
   email: string;
 
+  @Column({ select: false })
+  senha: string;
+
   @Column({
     type: 'varchar',
     length: 20,

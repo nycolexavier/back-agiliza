@@ -3,7 +3,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { FornecedoresService } from './fornecedores.service';
 import { CreateFornecedoresDto } from './dto/create-fornecedores.dto';
 import { UpdateFornecedoreDto } from './dto/update-fornecedores.dto';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/strategies/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('fornecedores')
 export class FornecedoresController {
   constructor(private readonly fornecedoresService: FornecedoresService) {}
