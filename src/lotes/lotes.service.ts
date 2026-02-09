@@ -29,6 +29,14 @@ export class LotesService {
   ) {}
 
   async create(createLoteDto: CreateLoteDto) {
+    const deposito = await this.depositoRepository.findOne({
+      where: { id: createLoteDto.depositoId },
+    });
+
+    if (deposito?.temProduto) {
+      throw new BadRequestException('Este corredor está ocupado');
+    }
+
     const produto = await this.productRepository.findOne({
       where: { id: createLoteDto.produtoId },
     });
@@ -46,10 +54,6 @@ export class LotesService {
     if (produto.isPerecivel === false) {
       createLoteDto.dataValidade = null;
     }
-
-    const deposito = await this.depositoRepository.findOne({
-      where: { id: createLoteDto.depositoId },
-    });
 
     if (!deposito) {
       throw new BadRequestException('Depósito não encontrado');
@@ -83,6 +87,8 @@ export class LotesService {
       throw new BadRequestException('Código de barra já existe');
     }
 
+    deposito.temProduto = true;
+    await this.depositoRepository.save(deposito);
     const lote = this.loterepository.create({
       precoCusto: createLoteDto.precoCusto,
       precoVenda: createLoteDto.precoVenda,

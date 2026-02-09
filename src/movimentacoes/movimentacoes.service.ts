@@ -10,6 +10,7 @@ import { MovimentacaoEstoque } from './entities/movimentacoe.entity';
 import { Repository } from 'typeorm';
 import { Lote } from 'src/lotes/entities/lote.entity';
 import { Users } from 'src/users/entities/users.entity';
+import { Deposito } from 'src/deposito/entities/deposito.entity';
 
 @Injectable()
 export class MovimentacoesService {
@@ -21,11 +22,15 @@ export class MovimentacoesService {
     private loteRepository: Repository<Lote>,
     @InjectRepository(Users)
     private userRepository: Repository<Users>,
+
+    @InjectRepository(Deposito)
+    private readonly depositoRepository: Repository<Deposito>,
   ) {}
 
   async create(createMovimentacoesDto: CreateMovimentacaoDto) {
     const lote = await this.loteRepository.findOne({
       where: { id: createMovimentacoesDto.loteId },
+      relations: ['deposito'],
     });
     if (!lote) throw new NotFoundException('Lote não encontrado');
 
@@ -53,6 +58,11 @@ export class MovimentacoesService {
       lote.quantidade = (
         Number(lote.quantidade) - createMovimentacoesDto.quantidade
       ).toString();
+
+      if (Number(lote.quantidade) === 0) {
+        lote.deposito.temProduto = false;
+        await this.depositoRepository.save(lote.deposito);
+      }
     }
 
     await this.loteRepository.save(lote);
