@@ -1,30 +1,35 @@
-/* eslint-disable */
-
 import { Lote } from '../../lotes/entities/lote.entity';
-import {BeforeInsert, Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn} from 'typeorm'
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('movimentacoes')
 export class MovimentacaoEstoque {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @PrimaryGeneratedColumn('uuid')
-    id: string
+  @Column({ type: 'varchar' })
+  tipo: 'entrada' | 'saida';
 
-    @Column({ type: 'varchar' })
-    tipo: 'entrada' | 'saida';
+  @Column({ type: 'date' })
+  dataMovimentacao: Date;
 
-    @Column({type: 'date'})
-    dataMovimentacao:Date
+  @Column({ type: 'numeric' })
+  quantidade: number;
 
-        @Column({ type: 'numeric' })
-    quantidade: number;
+  @ManyToOne(() => Lote, { eager: true })
+  @JoinColumn({ name: 'lote_id' })
+  lote: Lote;
 
-    @ManyToOne(() => Lote, { eager: true }) 
-    @JoinColumn({ name: 'lote_id' })
-    lote: Lote;
+  @CreateDateColumn({ type: 'timestamp' })
+  criadoEm: Date;
 
-    @CreateDateColumn({type: 'timestamp'})
-    criadoEm:Date
-    
-    @UpdateDateColumn({type: 'timestamp'})
-    atualizadoEm: Date
+  @UpdateDateColumn({ type: 'timestamp' })
+  atualizadoEm: Date;
 }

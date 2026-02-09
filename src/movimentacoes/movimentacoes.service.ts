@@ -29,7 +29,6 @@ export class MovimentacoesService {
     });
     if (!lote) throw new NotFoundException('Lote não encontrado');
 
-    // Valida se a saída não é maior que a quantidade disponível
     if (
       createMovimentacoesDto.tipo === 'saida' &&
       createMovimentacoesDto.quantidade > Number(lote.quantidade)

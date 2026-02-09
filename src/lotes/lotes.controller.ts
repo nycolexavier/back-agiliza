@@ -16,6 +16,11 @@ export class LotesController {
     return this.lotesService.create(createLoteDto);
   }
 
+  @Get('disponiveis')
+    findDisponiveis() {
+    return this.lotesService.findDisponiveis();
+  }
+
   @Get()
   findAll() {
     return this.lotesService.findAll();

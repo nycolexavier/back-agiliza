@@ -99,6 +99,7 @@ export class LotesService {
     return this.loterepository.save(lote);
   }
 
+  // todo ver se tem como fazer isso de forma diferente
   async findAll() {
     return this.loterepository
       .createQueryBuilder('lote')
@@ -114,6 +115,34 @@ export class LotesService {
         'lote.dataValidade',
         'lote.codigoBarra',
         'lote.codigoLote',
+
+        'produto.id',
+        'produto.nome',
+
+        'marca.id',
+        'marca.nome',
+
+        'deposito.id',
+        'deposito.corredor',
+
+        'fornecedor.id',
+        'fornecedor.nome',
+      ])
+      .getMany();
+  }
+
+  async findDisponiveis() {
+    return this.loterepository
+      .createQueryBuilder('lote')
+      .leftJoinAndSelect('lote.produto', 'produto')
+      .leftJoinAndSelect('lote.marca', 'marca')
+      .leftJoinAndSelect('lote.deposito', 'deposito')
+      .leftJoinAndSelect('lote.fornecedor', 'fornecedor')
+      .where('lote.quantidade::numeric > 0')
+      .select([
+        'lote.id',
+        'lote.codigoLote',
+        'lote.quantidade',
 
         'produto.id',
         'produto.nome',
