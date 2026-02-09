@@ -1,4 +1,4 @@
-import { IsBoolean, IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsString, IsUUID, MaxLength } from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
@@ -16,4 +16,7 @@ export class CreateProductDto {
   @IsString()
   @MaxLength(500)
   descricao: string;
+
+  @IsUUID()
+  categoriaId: string;
 }

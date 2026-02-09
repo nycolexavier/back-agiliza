@@ -4,12 +4,16 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
+import { Categoria } from 'src/categorias/entities/categoria.entity';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
+
+    @InjectRepository(Categoria)
+    private readonly categoriaRepository: Repository<Categoria>,
   ) {}
 
   async create(createProductDto: CreateProductDto) {
@@ -35,16 +39,29 @@ export class ProductsService {
       throw new NotFoundException('SKU já existe');
     }
 
+    const categoria = await this.categoriaRepository.findOne({
+      where: {
+        id: createProductDto.categoriaId,
+      },
+    });
+
+    if (!categoria) {
+      throw new NotFoundException('Categoria não encontrada.');
+    }
+
     const produto = this.productRepository.create({
       ...createProductDto,
       nome: nomeNormalizado,
+      categoria,
     });
 
     return this.productRepository.save(produto);
   }
 
   async findAll(): Promise<Product[]> {
-    return this.productRepository.find();
+    return this.productRepository.find({
+      relations: ['categoria'],
+    });
   }
 
   async findOne(id: string): Promise<Product> {

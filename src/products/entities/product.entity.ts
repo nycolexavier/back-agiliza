@@ -1,8 +1,12 @@
+// import { Categoria } from 'src/categorias/entities/categoria.entity';
+import { Categoria } from '../../categorias/entities/categoria.entity';
 import { Status } from '../../enums/status.enum';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -33,6 +37,10 @@ export class Product {
     default: Status.ATIVO,
   })
   status: Status;
+
+  @ManyToOne(() => Categoria)
+  @JoinColumn({ name: 'categoria_id' })
+  categoria: Categoria;
 
   @CreateDateColumn({ type: 'timestamp' })
   criadoEm: Date;
