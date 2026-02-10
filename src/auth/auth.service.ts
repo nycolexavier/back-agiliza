@@ -4,6 +4,7 @@ import { UpdateAuthDto } from './dto/update-auth.dto';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { Status } from '../enums/status.enum';
 
 @Injectable()
 export class AuthService {
@@ -14,6 +15,12 @@ export class AuthService {
 
   async login(email: string, senha: string) {
     const user = await this.usersService.findByEmailWithPassword(email);
+
+    if (user?.status === Status.INATIVO) {
+      throw new UnauthorizedException(
+        'Usuário inativo. Contate o administrador.',
+      );
+    }
 
     if (!user) {
       throw new UnauthorizedException('Email ou senha inválidos');
