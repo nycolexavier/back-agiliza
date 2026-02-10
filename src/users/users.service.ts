@@ -18,10 +18,12 @@ export class UsersService {
   ) {}
 
   async findByEmailWithPassword(email: string) {
+    const emailNormalizado = email.toLowerCase().trim();
+
     return this.userRepository
       .createQueryBuilder('user')
       .addSelect('user.senha')
-      .where('user.email = :email', { email })
+      .where('user.email = :email', { email: emailNormalizado })
       .getOne();
   }
 
@@ -42,8 +44,9 @@ export class UsersService {
   }
 
   async create(createUserDTO: CreateUserDTO) {
+    const emailNormalizado = createUserDTO.email.toLocaleLowerCase().trim();
     const existeUsuario = await this.userRepository.findOne({
-      where: { email: createUserDTO.email },
+      where: { email: emailNormalizado },
     });
 
     if (existeUsuario) {
@@ -56,6 +59,7 @@ export class UsersService {
 
     const user = this.userRepository.create({
       ...createUserDTO,
+      email: emailNormalizado,
       senha: senhaHash,
     });
 
@@ -63,15 +67,27 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDTO: UpdateUserDTO) {
-    const user =
-      updateUserDTO &&
-      (await this.userRepository.preload({
-        ...updateUserDTO,
-        id: id,
-      }));
+    const dadosAtualizados = {
+      ...updateUserDTO,
+    };
+
+    if (dadosAtualizados.email) {
+      dadosAtualizados.email = dadosAtualizados.email.toLowerCase().trim();
+    }
+
+    if (dadosAtualizados.senha) {
+      dadosAtualizados.senha = await bcrypt.hash(dadosAtualizados.senha, 10);
+    }
+
+    const user = await this.userRepository.preload({
+      ...dadosAtualizados,
+      id,
+    });
+
     if (!user) {
       throw new NotFoundException(`Usuário ID ${id} não encontrado`);
     }
+
     return this.userRepository.save(user);
   }
 
