@@ -44,7 +44,11 @@ export class UsersService {
   }
 
   async create(createUserDTO: CreateUserDTO) {
-    const emailNormalizado = createUserDTO.email.toLocaleLowerCase().trim();
+    const emailNormalizado = createUserDTO.email
+      .toLocaleLowerCase()
+      .trim()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
     const existeUsuario = await this.userRepository.findOne({
       where: { email: emailNormalizado },
     });
@@ -72,7 +76,11 @@ export class UsersService {
     };
 
     if (dadosAtualizados.email) {
-      dadosAtualizados.email = dadosAtualizados.email.toLowerCase().trim();
+      dadosAtualizados.email = dadosAtualizados.email
+        .toLowerCase()
+        .trim()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
     }
 
     if (dadosAtualizados.senha) {

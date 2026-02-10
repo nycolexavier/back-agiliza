@@ -92,6 +92,7 @@ export class LotesService {
     const lote = this.loterepository.create({
       precoCusto: createLoteDto.precoCusto,
       precoVenda: createLoteDto.precoVenda,
+      quantidadeInicial: Number(createLoteDto.quantidade),
       quantidade: createLoteDto.quantidade,
       dataValidade: createLoteDto.dataValidade,
       codigoBarra: createLoteDto.codigoBarra,

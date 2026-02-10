@@ -21,6 +21,11 @@ export class MovimentacoesController {
     return this.movimentacoesService.findAll();
   }
 
+  @Get('lote/:loteId')
+findByLote(@Param('loteId') loteId: string) {
+  return this.movimentacoesService.findByLote(loteId);
+}
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.movimentacoesService.findOne(id);

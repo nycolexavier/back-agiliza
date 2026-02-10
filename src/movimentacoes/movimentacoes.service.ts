@@ -74,6 +74,15 @@ export class MovimentacoesService {
     return this.movimentacaoRepository.find();
   }
 
+  async findByLote(loteId: string) {
+    return this.movimentacaoRepository
+      .createQueryBuilder('movimentacao')
+      .leftJoinAndSelect('movimentacao.lote', 'lote')
+      .where('lote.id = :loteId', { loteId })
+      .orderBy('movimentacao.dataMovimentacao', 'ASC')
+      .getMany();
+  }
+
   async findOne(id: string) {
     const movimentacao = await this.movimentacaoRepository.findOne({
       where: { id },

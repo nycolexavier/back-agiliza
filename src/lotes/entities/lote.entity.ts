@@ -26,6 +26,9 @@ export class Lote {
   @Column()
   quantidade: string;
 
+  @Column({ type: 'numeric' })
+  quantidadeInicial: number;
+
   @ManyToOne(() => Product)
   @JoinColumn({ name: 'produto_id' })
   produto: Product;
