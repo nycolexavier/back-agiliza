@@ -14,6 +14,7 @@ import { RelatoriosModule } from './relatorios/relatorios.module';
 import { CategoriasModule } from './categorias/categorias.module';
 import { EnderecosModule } from './enderecos/enderecos.module';
 import { AuthModule } from './auth/auth.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { AuthModule } from './auth/auth.module';
     CategoriasModule,
     EnderecosModule,
     AuthModule,
+    DashboardModule,
   ],
   controllers: [AppController],
   providers: [AppService],
